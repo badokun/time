@@ -1,0 +1,249 @@
+:root {
+  --bg: #09111f;
+  --bg-accent: #0f1d31;
+  --panel: rgba(9, 17, 31, 0.78);
+  --panel-strong: rgba(15, 29, 49, 0.92);
+  --line: rgba(148, 163, 184, 0.18);
+  --line-strong: rgba(148, 163, 184, 0.35);
+  --text: #e6eef8;
+  --muted: #9aa9bf;
+  --accent: #66e3c4;
+  --accent-strong: #2cc7a3;
+  --accent-soft: rgba(102, 227, 196, 0.12);
+  --danger-soft: rgba(255, 255, 255, 0.06);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+  --radius: 24px;
+  --radius-small: 16px;
+  --font-body: "Avenir Next", "Segoe UI", sans-serif;
+  --font-heading: "Iowan Old Style", "Palatino Linotype", serif;
+
+  color-scheme: dark;
+  font: 16px/1.45 var(--font-body);
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(102, 227, 196, 0.14), transparent 32%),
+    radial-gradient(circle at top right, rgba(84, 132, 255, 0.16), transparent 24%),
+    linear-gradient(180deg, #101b2d 0%, #07111e 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+select,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+#app {
+  min-height: 100svh;
+}
+
+.app-shell {
+  width: min(100%, 34rem);
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.hero-panel,
+.time-card,
+.favorites-panel {
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.hero-panel {
+  padding: 1.4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-panel::after {
+  content: '';
+  position: absolute;
+  inset: auto -2rem -2rem auto;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(102, 227, 196, 0.28) 0%, rgba(102, 227, 196, 0) 72%);
+}
+
+.eyebrow,
+.card-label {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  color: var(--accent);
+}
+
+.hero-panel h1 {
+  margin-top: 0.55rem;
+  font: 700 clamp(2rem, 7vw, 3.2rem) / 0.95 var(--font-heading);
+}
+
+.hero-copy {
+  margin-top: 0.9rem;
+  max-width: 28rem;
+  color: var(--muted);
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.action-button,
+.favorite-chip,
+.favorite-toggle {
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: var(--danger-soft);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.action-button {
+  min-height: 3.25rem;
+  border-radius: 999px;
+}
+
+.action-button:active,
+.favorite-chip:active,
+.favorite-toggle:active {
+  transform: scale(0.98);
+}
+
+.converter-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.time-card,
+.favorites-panel {
+  padding: 1rem;
+}
+
+.card-header,
+.favorites-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.time-card h2,
+.favorites-panel h2 {
+  margin-top: 0.3rem;
+  font: 700 1.45rem/1.05 var(--font-heading);
+}
+
+.favorite-toggle {
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 999px;
+  font-size: 1.3rem;
+}
+
+.favorite-toggle[aria-pressed="true"] {
+  color: #061119;
+  background: var(--accent);
+  border-color: transparent;
+}
+
+.field-label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.45rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.select-field,
+.time-input {
+  width: 100%;
+  min-height: 3.2rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: var(--radius-small);
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+  color: var(--text);
+}
+
+.select-field:focus,
+.time-input:focus,
+.action-button:focus,
+.favorite-toggle:focus,
+.favorite-chip:focus {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+.meta-line,
+.favorites-hint,
+.empty-state {
+  margin-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.favorites-panel {
+  padding-bottom: 1.1rem;
+}
+
+.favorites-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.favorite-chip {
+  padding: 0.75rem 0.95rem;
+  border-radius: 999px;
+}
+
+.favorite-chip.is-active {
+  background: var(--accent-soft);
+  border-color: var(--accent-strong);
+}
+
+@media (min-width: 720px) {
+  .app-shell {
+    width: min(100%, 64rem);
+    padding: 1.5rem;
+  }
+
+  .converter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

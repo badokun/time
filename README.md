@@ -2,6 +2,10 @@
 
 A very small mobile-first web app for converting time between two timezones.
 
+Live URL: https://timeeasy.netlify.app
+
+GitHub: https://github.com/badokun/time
+
 ## Features
 
 - Pick a source timezone and a target timezone.

@@ -72,6 +72,10 @@ app.innerHTML = `
       </div>
       <div class="favorites-list" id="favorites-list"></div>
     </section>
+
+    <footer class="site-footer">
+      <a class="footer-link" href="https://github.com/badokun/time" target="_blank" rel="noreferrer">View source on GitHub</a>
+    </footer>
   </main>
 `
 

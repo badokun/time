@@ -153,6 +153,11 @@ p {
   padding: 1rem;
 }
 
+.time-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
 .card-header,
 .favorites-header {
   display: flex;
@@ -190,13 +195,20 @@ p {
 
 .select-field,
 .time-input {
+  display: block;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 3.2rem;
   padding: 0.85rem 0.95rem;
   border-radius: var(--radius-small);
   border: 1px solid var(--line);
   background: var(--panel-strong);
   color: var(--text);
+}
+
+.time-input {
+  overflow: hidden;
 }
 
 .select-field:focus,
@@ -235,6 +247,35 @@ p {
 .favorite-chip.is-active {
   background: var(--accent-soft);
   border-color: var(--accent-strong);
+}
+
+.site-footer {
+  padding: 0.2rem 0 1.25rem;
+  text-align: center;
+}
+
+.footer-link {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.footer-link:hover,
+.footer-link:focus {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+@media (max-width: 480px) {
+  .time-input {
+    padding-inline: 0.75rem;
+    font-size: 0.94rem;
+  }
+
+  .time-input::-webkit-date-and-time-value,
+  .time-input::-webkit-datetime-edit {
+    min-width: 0;
+  }
 }
 
 @media (min-width: 720px) {

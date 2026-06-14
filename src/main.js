@@ -41,8 +41,11 @@ app.innerHTML = `
         </div>
         <label class="field-label" for="source-zone">Timezone</label>
         <select id="source-zone" class="select-field"></select>
-        <label class="field-label" for="source-time">Date and time</label>
-        <input id="source-time" class="time-input" type="datetime-local" />
+        <p class="field-label">Date and time</p>
+        <div class="date-time-row">
+          <input id="source-date" class="time-input" type="date" />
+          <input id="source-time" class="time-input" type="time" step="60" />
+        </div>
         <p class="meta-line" id="source-meta"></p>
       </article>
 
@@ -56,8 +59,11 @@ app.innerHTML = `
         </div>
         <label class="field-label" for="target-zone">Timezone</label>
         <select id="target-zone" class="select-field"></select>
-        <label class="field-label" for="target-time">Date and time</label>
-        <input id="target-time" class="time-input" type="datetime-local" />
+        <p class="field-label">Date and time</p>
+        <div class="date-time-row">
+          <input id="target-date" class="time-input" type="date" />
+          <input id="target-time" class="time-input" type="time" step="60" />
+        </div>
         <p class="meta-line" id="target-meta"></p>
       </article>
     </section>
@@ -81,7 +87,9 @@ app.innerHTML = `
 
 const sourceZoneSelect = document.querySelector('#source-zone')
 const targetZoneSelect = document.querySelector('#target-zone')
+const sourceDateInput = document.querySelector('#source-date')
 const sourceTimeInput = document.querySelector('#source-time')
+const targetDateInput = document.querySelector('#target-date')
 const targetTimeInput = document.querySelector('#target-time')
 const sourceMeta = document.querySelector('#source-meta')
 const targetMeta = document.querySelector('#target-meta')
@@ -118,16 +126,36 @@ targetZoneSelect.addEventListener('change', (event) => {
   persistState()
 })
 
+sourceDateInput.addEventListener('input', () => {
+  updateFromSideInputs('source')
+})
+
 sourceTimeInput.addEventListener('input', () => {
-  updateFromInput('source', sourceTimeInput.value)
+  updateFromSideInputs('source')
+})
+
+targetDateInput.addEventListener('input', () => {
+  updateFromSideInputs('target')
 })
 
 targetTimeInput.addEventListener('input', () => {
-  updateFromInput('target', targetTimeInput.value)
+  updateFromSideInputs('target')
+})
+
+sourceDateInput.addEventListener('focus', () => {
+  state.activeSide = 'source'
+  renderFavorites()
+  persistState()
 })
 
 sourceTimeInput.addEventListener('focus', () => {
   state.activeSide = 'source'
+  renderFavorites()
+  persistState()
+})
+
+targetDateInput.addEventListener('focus', () => {
+  state.activeSide = 'target'
   renderFavorites()
   persistState()
 })
@@ -237,11 +265,15 @@ function buildOption(zone, selectedValue) {
   return `<option value="${zone}"${selected}>${formatZoneLabel(zone)}</option>`
 }
 
-function updateFromInput(side, value) {
-  if (!value) {
+function updateFromSideInputs(side) {
+  const dateValue = side === 'source' ? sourceDateInput.value : targetDateInput.value
+  const timeValue = side === 'source' ? sourceTimeInput.value : targetTimeInput.value
+
+  if (!dateValue || !timeValue) {
     return
   }
 
+  const value = `${dateValue}T${timeValue}`
   const timeZone = side === 'source' ? state.sourceTimeZone : state.targetTimeZone
   const instant = zonedDateTimeToUtc(value, timeZone)
 
@@ -257,9 +289,13 @@ function updateFromInput(side, value) {
 
 function syncInputsFromInstant() {
   const instant = new Date(state.instant)
+  const sourceValue = formatForInput(instant, state.sourceTimeZone)
+  const targetValue = formatForInput(instant, state.targetTimeZone)
 
-  sourceTimeInput.value = formatForInput(instant, state.sourceTimeZone)
-  targetTimeInput.value = formatForInput(instant, state.targetTimeZone)
+  sourceDateInput.value = sourceValue.date
+  sourceTimeInput.value = sourceValue.time
+  targetDateInput.value = targetValue.date
+  targetTimeInput.value = targetValue.time
   sourceMeta.textContent = describeTimeZone(instant, state.sourceTimeZone)
   targetMeta.textContent = describeTimeZone(instant, state.targetTimeZone)
   favoritesHint.textContent = `Tap a favorite to apply it to the ${state.activeSide} timezone.`
@@ -337,7 +373,10 @@ function formatZoneLabel(zone) {
 
 function formatForInput(date, timeZone) {
   const parts = getZonedParts(date, timeZone)
-  return `${parts.year}-${pad(parts.month)}-${pad(parts.day)}T${pad(parts.hour)}:${pad(parts.minute)}`
+  return {
+    date: `${parts.year}-${pad(parts.month)}-${pad(parts.day)}`,
+    time: `${pad(parts.hour)}:${pad(parts.minute)}`,
+  }
 }
 
 function describeTimeZone(date, timeZone) {

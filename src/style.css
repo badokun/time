@@ -155,7 +155,6 @@ p {
 
 .time-card {
   min-width: 0;
-  overflow: hidden;
 }
 
 .card-header,
@@ -193,6 +192,12 @@ p {
   font-size: 0.92rem;
 }
 
+.date-time-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
+  gap: 0.65rem;
+}
+
 .select-field,
 .time-input {
   display: block;
@@ -205,10 +210,6 @@ p {
   border: 1px solid var(--line);
   background: var(--panel-strong);
   color: var(--text);
-}
-
-.time-input {
-  overflow: hidden;
 }
 
 .select-field:focus,
@@ -267,14 +268,13 @@ p {
 }
 
 @media (max-width: 480px) {
+  .date-time-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .time-input {
     padding-inline: 0.75rem;
     font-size: 0.94rem;
-  }
-
-  .time-input::-webkit-date-and-time-value,
-  .time-input::-webkit-datetime-edit {
-    min-width: 0;
   }
 }
 

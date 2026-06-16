@@ -3,6 +3,7 @@ import './style.css'
 const STORAGE_KEY = 'timezone-bridge-state'
 const DEFAULT_SOURCE = 'America/Los_Angeles'
 const DEFAULT_TARGET = 'Europe/Berlin'
+const DEFAULT_FAVORITES = ['Australia/Sydney', 'Africa/Johannesburg']
 
 const timeZones = typeof Intl.supportedValuesOf === 'function'
   ? Intl.supportedValuesOf('timeZone')
@@ -199,7 +200,7 @@ function loadState() {
   const fallback = {
     sourceTimeZone: timeZones.includes(DEFAULT_SOURCE) ? DEFAULT_SOURCE : timeZones[0],
     targetTimeZone: timeZones.includes(DEFAULT_TARGET) ? DEFAULT_TARGET : timeZones[1] ?? timeZones[0],
-    favorites: [DEFAULT_SOURCE, DEFAULT_TARGET].filter((zone, index, array) => timeZones.includes(zone) && array.indexOf(zone) === index),
+    favorites: DEFAULT_FAVORITES.filter((zone, index, array) => timeZones.includes(zone) && array.indexOf(zone) === index),
     activeSide: 'source',
     instant: defaultDate.toISOString(),
   }
